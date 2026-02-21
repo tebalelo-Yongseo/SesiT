@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Sis Tetelo 🎉</title>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #0b0f2b, #000);
+    overflow-x: hidden;
+    font-family: 'Georgia', serif;
+    color: #fff;
+}
+
+/* ================= ENVELOPE ================= */
+#envelope-container {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, #1a1f5c, #000);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.envelope {
+    width: 260px;
+    height: 180px;
+    background: #c2185b;
+    position: relative;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.envelope::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: 130px solid transparent;
+    border-right: 130px solid transparent;
+    border-top: 90px solid #e91e63;
+    transform-origin: top;
+    transition: transform 1s ease;
+}
+
+.envelope.open::before {
+    transform: rotateX(180deg);
+}
+
+.envelope span {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#open-text {
+    position: absolute;
+    bottom: -50px;
+    font-size: 18px;
+    color: #ffd1dc;
+}
+
+/* ================= CARD ================= */
+#content {
+    display: none;
+    min-height: 100vh;
+    background-image: url("WhatsApp Image 2026-01-10 at 03.48.19.jpeg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background: rgba(0,0,0,0.7);
+    padding: 30px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 850px;
+    text-align: center;
+    animation: zoomIn 1.8s ease;
+    box-shadow: 0 0 35px rgba(255, 105, 180, 0.9);
+}
+
+h1 {
+    font-size: clamp(26px, 4vw, 42px);
+    color: #ffb6c1;
+}
+
+#countdown {
+    margin: 10px 0 20px;
+    color: #ffd1dc;
+}
+
+#message {
+    font-size: clamp(15px, 3vw, 18px);
+    line-height: 1.7;
+    min-height: 320px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 14px 28px;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #ff4081, #ff79a8);
+    color: white;
+}
+
+/* ================= STAR ZODIAC ================= */
+#stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 2s infinite alternate;
+}
+
+.capricorn-line {
+    position: absolute;
+    height: 2px;
+    background: rgba(255,255,255,0.5);
+    transform-origin: left;
+}
+
+/* ================= EFFECTS ================= */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+}
+
+.balloon {
+    position: absolute;
+    bottom: -100px;
+    width: 40px;
+    height: 55px;
+    border-radius: 50%;
+    animation: rise 14s linear infinite;
+}
+
+.flower {
+    position: absolute;
+    font-size: 24px;
+    animation: fall 12s linear infinite;
+}
+
+.firework {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: gold;
+    border-radius: 50%;
+    animation: explode 1.2s ease-out;
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes zoomIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes twinkle {
+    from { opacity: 0.3; }
+    to { opacity: 1; }
+}
+
+@keyframes floatUp {
+    to { transform: translateY(-120vh); }
+}
+
+@keyframes rise {
+    to { transform: translateY(-120vh); }
+}
+
+@keyframes fall {
+    to { transform: translateY(120vh); }
+}
+
+@keyframes explode {
+    to { transform: scale(6); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ENVELOPE -->
+<div id="envelope-container">
+    <div class="envelope" onclick="openCard()">
+        <span>💌</span>
+    </div>
+    <div id="open-text">Tap to Open Card</div>
+</div>
+
+<!-- STAR ZODIAC -->
+<div id="stars"></div>
+
+<!-- CONTENT -->
+<div id="content">
+    <div class="card">
+        <h1>Happy Birthday, my love, Sis Tetelo 🎉💐</h1>
+        <div id="countdown"></div>
+        <div id="message"></div>
+        <button onclick="playMusic()">Play Birthday Music 🎵</button>
+    </div>
+</div>
+
+<!-- AUDIO -->
+<audio id="music" loop>
+    <source src="Birthday Girl (Remix).mp3" type="audio/mpeg">
+</audio>
+
+<audio id="confetti">
+    <source src="Birthday Girl (Remix).mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* ================= OPEN CARD ================= */
+function openCard() {
+    document.querySelector('.envelope').classList.add('open');
+    setTimeout(() => {
+        document.getElementById('envelope-container').style.display = 'none';
+        document.getElementById('content').style.display = 'flex';
+        typeWriter();
+        startEffects();
+    }, 1000);
+}
+
+/* ================= COUNTDOWN ================= */
+const birthday = new Date("January 10, 2026 00:00:00");
+
+function updateCountdown() {
+    const now = new Date();
+    const diff = birthday - now;
+    if (diff <= 0) {
+        countdown.innerHTML = "🎉 TODAY WE CELEBRATE YOU 🎉";
+        return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor(diff / 3600000) % 24;
+    const m = Math.floor(diff / 60000) % 60;
+    const s = Math.floor(diff / 1000) % 60;
+    countdown.innerHTML = `⏳ ${d} Days ${h} Hours ${m} Minutes ${s} Seconds`;
+}
+setInterval(updateCountdown, 1000);
+
+/* ================= TYPING ================= */
+const text = `Happy Birthday, my love, Sis Tetelo 🎉💐
+
+Today I celebrate we a woman of strength, depth, and a heart that loves fiercely. You are not just a sister, you are my safe place, my inspiration, and my forever support system. Your presence alone brings peace, and your love changes lives without even trying.
+
+They say Capricorns are built to rise, and you are living proof.
+
+“A Capricorn doesn’t wish for success, they work for it and earn it.”
+
+Your resilience, patience, and silent strength amaze me every day. You carry so much grace even when life tests you, and still you show up with love and kindness.
+
+“Capricorn souls are old souls, strong enough to endure, soft enough to care.”
+
+Sis Tetelo, may all your wishes come true this year, every dream you’ve prayed for, every goal you’ve worked hard for, and every happiness your heart deserves. May this new year reward you for all the love you give so selflessly.
+
+Never forget how deeply loved you are, how powerful your spirit is, and how proud I am to have you in my life. This year is yours, to shine, to win, to heal, and to grow. ✨
+
+Happy Birthday, my Capricorn queen 👑💖
+May life meet you with the same loyalty, strength, and love you give to others. 👑💖`;
+
+let i = 0;
+function typeWriter() {
+    if (i < text.length) {
+        message.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 35);
+    }
+}
+
+/* ================= MUSIC ================= */
+function playMusic() {
+    music.play();
+}
+
+/* ================= EFFECTS ================= */
+function startEffects() {
+    // Stars (Capricorn constellation)
+    const points = [
+        [20,30],[30,35],[40,32],[50,40],[60,45],[70,50]
+    ];
+    points.forEach(p => {
+        let s = document.createElement("div");
+        s.className = "star";
+        s.style.left = p[0] + "vw";
+        s.style.top = p[1] + "vh";
+        stars.appendChild(s);
+    });
+
+    // Hearts
+    for (let i=0;i<15;i++){
+        let h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="💖";
+        h.style.left=Math.random()*100+"vw";
+        document.body.appendChild(h);
+    }
+
+    // Fireworks + confetti sound
+    setInterval(()=>{
+        let fw=document.createElement("div");
+        fw.className="firework";
+        fw.style.left=Math.random()*100+"vw";
+        fw.style.top=Math.random()*50+"vh";
+        document.body.appendChild(fw);
+        confetti.play();
+        setTimeout(()=>fw.remove(),1200);
+    },1200);
+}
+</script>
+
+</body>
+</html>
